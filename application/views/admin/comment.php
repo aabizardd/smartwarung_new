@@ -58,20 +58,16 @@
 
 
                                     <tbody>
-                                        <?php $no = 1;
-foreach ($comment as $key): ?>
+                                        <?php $no = 1;?>
+                                        <?php foreach ($comment as $key): ?>
                                         <tr>
                                             <td><?=$no;?></td>
                                             <td>
                                                 <p>
-                                                    <?php
-echo date("d M Y", strtotime($key['date']))
-?>
+                                                    <?php echo date("d M Y", strtotime($key['date'])) ?>
                                                 </p>
                                                 <p>
-                                                    <?php
-echo 'Jam : ' . date("H:i", strtotime($key['date']))
-?>
+                                                    <?php echo 'Jam : ' . date("H:i", strtotime($key['date'])) ?>
                                                 </p>
                                             </td>
                                             <td><?=$key['sender_name']?></td>
@@ -84,8 +80,8 @@ echo 'Jam : ' . date("H:i", strtotime($key['date']))
                                                         width="250"></a>
                                             </td>
                                         </tr>
-                                        <?php $no++;
-endforeach;?>
+                                        <?php $no++;?>
+                                        <?php endforeach;?>
                                     </tbody>
                                 </table>
                             </div>

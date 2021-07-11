@@ -53,6 +53,7 @@ class comment extends CI_Controller
                         'rating' => $this->input->post('rating'),
                         'foto' => $upload_data['file_name'],
                     ];
+
                     $check_id = $this->templates->insert_id('comments', $data);
                     if ($check_id == null) {
                         echo json_encode(['status' => 'success']);

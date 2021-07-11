@@ -431,7 +431,7 @@ echo implode(' ', array_slice(str_word_count($phrase, 2), 0, 5));
 
         </div>
 
-        <?php if(isset($order_terima['jml'])) :?>
+        <?php if (isset($order_terima['jml'])): ?>
         <?php if ($order_terima['jml'] > 0): ?>
         <script>
         $(document).ready(function() {

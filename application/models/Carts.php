@@ -13,7 +13,7 @@ class carts extends CI_Model
         $this->db->insert('carts', $data);
     }
 
-    public function get_all($username)
+    public function get_all($username, $data_item = null)
     {
         $this->db->select(
             'carts.id,carts.username,
@@ -26,6 +26,10 @@ class carts extends CI_Model
         $this->db->join('items', 'items.id = cart_details.item');
         $this->db->join('users', 'items.username = users.username');
         $this->db->where('carts.username', $username);
+
+        if (!is_null($data_item)) {
+            $this->db->where_in('cart_details.item', $data_item);
+        }
         return $this->db->get()->result_array();
     }
 

@@ -117,10 +117,13 @@ if ($this->session->userdata('login', true)) {
                                        <textarea class="form-control" name="comment" id="inp_comment" rows="10"
                                            required></textarea>
                                    </div>
+
                                    <div class="form-box__single-group">
                                        <div class="g-recaptcha" data-sitekey="6LdIYIMbAAAAAKGt3AdpnUMhan_zugneaQYD4sBx">
                                        </div>
                                    </div>
+
+                                   <input type="hidden" name="rating" value="0">
 
                                    <button id="tombol_tambah" type="submit"
                                        class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-t-30">Kirim</button>

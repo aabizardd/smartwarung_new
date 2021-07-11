@@ -14,10 +14,12 @@ class invoice extends CI_Controller
         $this->load->model('invoices');
         $this->load->model('templates');
 
+        $this->load->helper('cookie');
+
         // var_dump($this->session->userdata('username'));die();
 
     }
-    
+
     public function upd_invoice($id)
     {
         $data = [
@@ -30,8 +32,22 @@ class invoice extends CI_Controller
 
     public function create()
     {
-        $data['carts'] = $this->carts->get_all($this->session->userdata('username'));
+
+        $checkouts = get_cookie('checkout');
+        // var_dump($checkout);die();
+
+        if ($checkouts == "") {
+            $this->session->set_flashdata('errors', 'Pilih barang yang ingin anda checkout!');
+            redirect('cart');
+        }
+
+        $checkout = explode('-', $checkouts);
+        // var_dump($checkout);die();
+
+        $data['carts'] = $this->carts->get_all($this->session->userdata('username'), $checkout);
+
         $data['bank'] = $this->templates->view_where('bank_accounts', ['warung_username' => 'admin'])->result();
+
         foreach ($data['carts'] as $item) {
             if ($item['warung_username'] != $data['carts'][0]['warung_username']) {
                 $this->session->set_flashdata('errors', 'Barang yang dibeli harus dari warung yang sama!');

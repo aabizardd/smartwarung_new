@@ -80,7 +80,8 @@ echo 'Jam : ' . date("H:i", strtotime($key['date']))
                                             <td><?php echo $key['message'] ?></td>
                                             <td><a href="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
                                                     target="_blank"><img class="img-thumbnail img-fluid"
-                                                        src="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"></a>
+                                                        src="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
+                                                        width="250"></a>
                                             </td>
                                         </tr>
                                         <?php $no++;

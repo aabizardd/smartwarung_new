@@ -194,9 +194,8 @@ if ($item['discount'] > 0) {
                        <h4 class="grand-total m-tb-25">Total Akhir
                            <span><?php echo "Rp " . number_format($total, 0, ".", ".") ?></span>
                        </h4>
-                       <a class="btn btn--box btn--small btn--blue btn--uppercase btn--weight"
-                           onclick="getLoc()">LANJUTKAN KE
-                           PEMBAYARAN</a>
+                       <a class="btn btn-info p-3  text-white" onclick="getLoc()"> <i class="fas fa-money-check"></i>
+                           LANJUTKAN KE PEMBAYARAN <i class="fas fa-angle-double-right"></i></a>
                    </div>
                </div>
            </div>

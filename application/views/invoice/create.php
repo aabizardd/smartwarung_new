@@ -106,12 +106,16 @@
                                        <h6 class="your-order-top-right">Total</h6>
                                    </div>
                                    <ul class="your-order-middle">
+                                       <?php $total = 0;?>
+                                       <?php $discount = 0;?>
+                                       <?php foreach ($carts as $item): ?>
                                        <li class="d-flex justify-content-between">
-                                           <?php $total = 0;?>
-                                           <?php $discount = 0;?>
-                                           <?php foreach ($carts as $item): ?>
-                                           <span class="your-order-middle-left"><?php echo $item['name'] ?> X
-                                               <?php echo $item['quantity'] ?></span>
+
+                                           <span class="your-order-middle-left">
+                                               <?php echo $item['name'] ?>
+                                               <a class="badge badge-primary text-white p-1">X
+                                                   <?php echo $item['quantity'] ?></a>
+                                           </span>
 
                                            <input type="number" name="item[]" hidden
                                                value="<?php echo $item['item_id'] ?>">
@@ -121,8 +125,10 @@
 
                                            <input type="number" name="quantity[]" hidden
                                                value="<?php echo $item['quantity'] ?>">
+
                                            <span
-                                               class="your-order-middle-right"><?php echo "Rp " . number_format($item['price'] * $item['quantity'], 0, ".", ".") ?></span>
+                                               class="your-order-middle-right"><?php echo "Rp " . number_format($item['price'] * $item['quantity'], 0, ".", ".") ?>
+                                           </span>
                                            <?php
 if ($item['discount'] > 0) {
     $total += ($item['price'] - (($item['discount'] / 100) * $item['price'])) * $item['quantity'];
@@ -132,9 +138,11 @@ if ($item['discount'] > 0) {
     $discount += 0;
 }
 ?>
-                                           <?php endforeach;?>
+
                                        </li>
+                                       <?php endforeach;?>
                                    </ul>
+
                                    <div class="your-order-total d-flex justify-content-between">
                                        <h6 class="your-order-bottom-left">Diskon</h6>
                                        <span

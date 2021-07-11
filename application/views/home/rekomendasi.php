@@ -151,7 +151,7 @@
                                        <a href="<?php echo site_url('item/show/') . $item['id'] ?>"
                                            class="product__img--link">
                                            <img class="product__img" src="<?php $photos = explode(',', $item['photo']);
-echo base_url('assets/uploads/') . $photos[0]?>" alt="">
+echo base_url('assets/uploads/') . $photos[0]?>" alt="" height="250">
                                        </a>
                                    </div>
                                    <div class="product__price m-t-10">
@@ -165,7 +165,7 @@ if ($item['discount'] > 0) {
                                    </div>
                                    <a href="<?php echo site_url('item/show/') . $item['id'] ?>"
                                        class="product__link product__link--underline product__link--weight-light m-t-15">
-                                       <?php echo $item['name'] ?>
+                                       <?php echo substr($item['name'], 0, 30) ?>
                                    </a>
                                </div> <!-- End Single Default Product -->
                                <?php endforeach;?>
@@ -180,7 +180,7 @@ if ($item['discount'] > 0) {
                                                <a href="<?php echo site_url('item/show/') . $item['id'] ?>"
                                                    class="product__img--link">
                                                    <img class="product__img" src="<?php $photos = explode(',', $item['photo']);
-echo base_url('assets/uploads/') . $photos[0]?>" alt="">
+echo base_url('assets/uploads/') . $photos[0]?>" alt="" height="250">
                                                </a>
 
                                            </div>
@@ -198,7 +198,7 @@ if ($item['discount'] > 0) {
                                            </div>
                                            <a href="<?php echo site_url('item/show/') . $item['id'] ?>"
                                                class="product__link product__link--underline product__link--weight-light m-t-15">
-                                               <?php echo $item['name'] ?>
+                                               <?php echo substr($item['name'], 0, 30) ?>
                                            </a>
                                            <div class="product__desc m-t-25 m-b-30">
                                                <p><?php echo $item['description'] ?></p>

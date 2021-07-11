@@ -54,7 +54,7 @@ foreach ($carts as $item): ?>
                                            <div class="custom-control custom-checkbox">
                                                <input type="checkbox" class="custom-control-input item-check"
                                                    id="<?=$item['item']?>" value="<?=$item['item']?>"
-                                                   name="choose-barang[]" required>
+                                                   name="choose-barang[]">
                                                <label class="custom-control-label" for="<?=$item['item']?>"></label>
                                            </div>
                                        </td>

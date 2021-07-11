@@ -253,8 +253,8 @@ function distance($lat1, $lon1, $lat2, $lon2)
                                             <!-- Start Single Default Product -->
                                             <?php $count = count($warungs);for ($i = 0; $i < $count; $i++): ?>
                                             <?php if (isset($_COOKIE['longg'])): ?>
-                                            <?php $jarak = round(distance($_COOKIE['lontt'], $_COOKIE['longg'], $warungs[$i]['lat'], $warungs[$i]['lng']));?>
-                                            <?php if ($jarak < 10): ?>
+                                            <?php $jarak = round(distance($_COOKIE['lontt'], $_COOKIE['longg'], $warungs[$i]['lat'], $warungs[$i]['lng']), 1);?>
+                                            <?php if ($jarak < 2.5): ?>
                                             <div
                                                 class="product__box product__box--default product__box--border-hover swiper-slide text-center">
                                                 <div class="product__img-box">

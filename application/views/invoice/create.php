@@ -76,7 +76,7 @@
                                    <input id="distance" type="text" class="form-control" name="distance"
                                        placeholder="Jarak" readonly>
                                    <small class="text-danger" id="alert-distance" style="display: none;"> <i>*Jarak
-                                           tidak boleh lebih dari 2
+                                           tidak boleh lebih dari 2.5
                                            Kilometer (KM)</i>
                                    </small>
                                </div>
@@ -221,7 +221,7 @@ function doneTyping() {
 
     var jarak = $('#distance').val();
 
-    if (jarak < 2) {
+    if (jarak < 2.5) {
         $('#payments').show()
         if ($('#method').val() == "Transfer") {
             $('#cod-button').hide()

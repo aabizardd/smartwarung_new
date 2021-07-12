@@ -206,6 +206,7 @@ $('#destination-input').keyup(function() {
     $('#pay-button').hide()
     $('#load-button').show()
     $('#payments').hide()
+    $('#alert-distance').hide()
 
     clearTimeout(typingTimer);
     if ($('#destination-input').val()) {

@@ -90,6 +90,7 @@ class auth extends CI_Controller
             $this->load->view('template/footer');
         } else {
             $this->users->store($this->input->post('username'));
+            $this->session->set_flashdata('success', 'Selamat, akun anda berhasil dibuat, mohon untuk menunggu aktivasi akun dari admin. Terimakasih');
             redirect('auth/login', 'refresh');
         }
     }

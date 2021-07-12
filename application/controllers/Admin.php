@@ -239,7 +239,7 @@ class admin extends CI_Controller
         $data['warungs'] = $this->users->get_warungs();
         $data['active'] = 'comment';
         $data['users'] = $this->users->get_users();
-        $data['comment'] = $this->db->get_where('comments', ['to_whom' => 'admin'])->result_array();
+        $data['comment'] = $this->users->getComments(['to_whom' => 'admin'])->result_array();
         $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
         $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
         $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();
@@ -616,6 +616,45 @@ class admin extends CI_Controller
         $this->templates->update('items', ['id' => $id], ['discount' => $this->input->post('discount')]);
         $this->session->set_flashdata('success_ubah', 'Sukses Ubah Obral Mingguan');
         redirect('admin/week_sale');
+    }
+
+    public function send_balasan()
+    {
+        $this->_sendEmail();
+
+        $this->session->set_flashdata('success', 'Balasan berhasil dikirim!');
+        redirect('admin/comment');
+
+    }
+
+    private function _sendEmail()
+    {
+
+        $this->load->library('email');
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_user' => 'nurdalifahasr@gmail.com',
+            'smtp_pass' => 'gmailifay09',
+            'smtp_port' => 465,
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'newline' => "\r\n",
+        ];
+
+        $this->email->initialize($config);
+        $this->email->from('admin@smartwarung.site', 'Admin SmartWarung');
+        $this->email->to($this->input->post('email'));
+
+        $this->email->subject('Balasan Kritikan Anda Terhadap Website SmartWarung');
+        $this->email->message($this->input->post('balasan'));
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            echo $this->email->print_debugger();
+            die;
+        }
     }
 
 }

@@ -215,17 +215,11 @@ if ($item['discount'] > 0) {
                }
            }
 
-
-
            if (vals) vals = vals.substring(1);
-
-
-
            //    vals.toString()
 
            vals = vals.replace(',', '-')
            //    vals = CryptoJS.MD5(vals).toString();
-
            createCookie('checkout', vals, '10');
 
            window.location.href = "<?=site_url('invoice/create/')?>";

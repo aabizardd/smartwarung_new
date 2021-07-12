@@ -188,4 +188,6 @@
 <script src="<?php echo base_url('assets_user/') ?>js/main.js"></script>
 </body>
 
+<script src="//code.tidio.co/8mwnjpvbd87bmtkfbmnaq8eovjzgl5ta.js" async></script>
+
 </html>

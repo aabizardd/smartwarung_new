@@ -12,6 +12,7 @@
        </div>
    </div> <!-- ::::::  End  Breadcrumb Section  ::::::  -->
 
+
    <!-- ::::::  Start  Main Container Section  ::::::  -->
    <main id="main-container" class="main-container">
        <div class="container">
@@ -23,6 +24,9 @@
                            <div class="row">
                                <div class="col-lg-7 col-md-12 ml-auto mr-auto">
                                    <div class="login-register-wrapper">
+
+
+
                                        <div class="login-register-tab-list nav">
                                            <a class="active" data-toggle="tab">
                                                <h4>login</h4>
@@ -41,7 +45,10 @@
                                                        <div class="alert alert-success text-center" role="alert">
                                                            <?php echo $this->session->flashdata('success') ?>
                                                        </div>
+
                                                        <?php endif;?>
+
+
                                                        <form action="<?php echo site_url('auth/verif') ?>"
                                                            method="post">
                                                            <div class="form-box__single-group">

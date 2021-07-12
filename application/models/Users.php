@@ -13,6 +13,7 @@ class users extends CI_Model
                 'phone' => $this->input->post('phone'),
                 'email' => $this->input->post('email'),
                 'role' => 0,
+                'is_aktif_cust' => 0,
             );
 
             return $this->db->insert('users', $data);
@@ -176,6 +177,14 @@ class users extends CI_Model
         $query = "SELECT r.username pembeli, i.username nama_toko, i.name barang, review, rating FROM reviews r JOIN items i on r.item = i.id";
 
         return $this->db->query($query);
+    }
+
+    public function getComments($where)
+    {
+        $this->db->from('comments');
+        $this->db->join('users', 'users.username = comments.username');
+        $this->db->where($where);
+        return $this->db->get();
     }
 
 }

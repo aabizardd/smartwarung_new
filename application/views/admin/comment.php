@@ -53,6 +53,7 @@
                                             <th>Kepada</th>
                                             <th>Pesan</th>
                                             <th>Bukti</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
 
@@ -79,11 +80,67 @@
                                                         src="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
                                                         width="250"></a>
                                             </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary balasan"
+                                                    data-toggle="modal" data-target="#exampleModal"
+                                                    data-email="<?=$key['email']?>" data-message="<?=$key['message']?>">
+                                                    <i class="fas fa-reply"></i>
+                                                    Balas
+                                                </button>
+                                            </td>
                                         </tr>
                                         <?php $no++;?>
                                         <?php endforeach;?>
                                     </tbody>
                                 </table>
+
+                                <!-- Button trigger modal -->
+                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal">
+                                    Launch demo modal
+                                </button> -->
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Balas Kritik dan Saran
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="<?=base_url('admin/send_balasan')?>" method="POST">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlTextarea1">Balasan</label>
+                                                        <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                            rows="3" name="balasan" required></textarea>
+                                                    </div>
+
+                                                    <input type="hidden" id="email" name="email">
+                                                    <input type="hidden" id="message" name="message">
+
+                                                    <button class="btn btn-primary" type="submit" id="kirim_balasan"
+                                                        style="display: block;">Kirim</button>
+
+                                                    <button class="btn btn-primary" type="button" disabled
+                                                        style="display: none;" id="loader">
+                                                        <span class="spinner-border spinner-border-sm" role="status"
+                                                            aria-hidden="true"></span>
+                                                        Mengirim...
+                                                    </button>
+
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -94,6 +151,30 @@
         </div>
         <!-- end page-content-wrapper -->
     </div>
+
+    <script src="<?php echo base_url('assets_admin/') ?>libs/jquery/jquery.min.js"></script>
+
+    <script>
+    $('#kirim_balasan').on('click', function() {
+
+        $('#kirim_balasan').hide();
+        $('#loader').show();
+
+    });
+    </script>
+
+    <script>
+    $(document).on("click", ".balasan", function() {
+        // alert('hai')
+        var email = $(this).data('email');
+        var message = $(this).data('message');
+        $(".modal-body #email").val(email);
+        $(".modal-body #message").val(message);
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+    </script>
     <!-- End Page-content -->
 
     <!-- sample modal content
@@ -120,4 +201,8 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
                     </div> /.modal -->

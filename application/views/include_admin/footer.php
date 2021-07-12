@@ -108,6 +108,8 @@
 
                 <script src="<?php echo base_url('assets_admin/') ?>js/app.js"></script>
 
+
+
                 </body>
 
                 </html>

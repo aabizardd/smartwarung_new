@@ -109,6 +109,23 @@ class admin extends CI_Controller
         $this->load->view('include_admin/footer');
     }
 
+    public function transaksi_warung()
+    {
+        $data['warungs'] = $this->users->get_warungs_all_transaction();
+
+        $data['active'] = 'warung';
+        $data['users'] = $this->users->get_users();
+        $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
+        $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
+        $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();
+
+        $this->load->view('include_admin/meta');
+        $this->load->view('include_admin/header');
+        $this->load->view('include_admin/sidebar');
+        $this->load->view('admin/transaksi_warung', $data);
+        $this->load->view('include_admin/footer');
+    }
+
     public function pendapatan_warung()
     {
         $data['warungs'] = $this->users->get_income_warung();
@@ -137,7 +154,8 @@ class admin extends CI_Controller
 
     public function barang()
     {
-        $data['warungs'] = $this->db->get('items')->result_array();
+        $data['warungs'] = $this->users->getBarangCategories()->result_array();
+
         $data['active'] = 'warung';
         $data['users'] = $this->users->get_users();
         $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
@@ -337,6 +355,22 @@ class admin extends CI_Controller
         $this->load->view('include_admin/header');
         $this->load->view('include_admin/sidebar');
         $this->load->view('admin/user', $data);
+        $this->load->view('include_admin/footer');
+    }
+
+    public function transaksi_user()
+    {
+        $data['warungs'] = $this->users->get_warungs();
+        $data['users'] = $this->users->getTransactionUsers();
+        $data['active'] = 'user';
+        $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
+        $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
+        $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();
+
+        $this->load->view('include_admin/meta');
+        $this->load->view('include_admin/header');
+        $this->load->view('include_admin/sidebar');
+        $this->load->view('admin/transaksi_user', $data);
         $this->load->view('include_admin/footer');
     }
 
@@ -634,8 +668,8 @@ class admin extends CI_Controller
         $config = [
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'nurdalifahasr@gmail.com',
-            'smtp_pass' => 'gmailifay09',
+            'smtp_user' => 'smartwarung11@gmail.com',
+            'smtp_pass' => 'Adminsmart11@_',
             'smtp_port' => 465,
             'mailtype' => 'html',
             'charset' => 'utf-8',

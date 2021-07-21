@@ -47,7 +47,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>&nbsp;</th>
+                                            <th>Gambar</th>
                                             <th>Nama Warung</th>
                                             <th>Alamat</th>
                                             <th>No Telpon</th>
@@ -136,10 +136,7 @@ echo implode(' ', array_slice(str_word_count($phrase, 2), 0, 5));
                                                             onclick="return confirm('Apakah Anda yakin tidak menyetujui?')">
                                                             Unapprove </a>
                                                         <?php }?>
-                                                        <a href="<?php echo site_url('admin/delete/') . $warung['username'] ?>"
-                                                            class="btn dropdown-item "
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
-                                                            Hapus </a>
+
                                                     </div>
 
                                                 </div>

@@ -189,6 +189,8 @@
 <script src="<?php echo base_url('assets_user/') ?>js/main.js"></script>
 </body>
 
+<?php if ($this->session->userdata('username')): ?>
 <script src="//code.tidio.co/8mwnjpvbd87bmtkfbmnaq8eovjzgl5ta.js" async></script>
+<?php endif?>
 
 </html>

@@ -50,6 +50,7 @@
                                             <th>ID Barang</th>
                                             <th>Gambar</th>
                                             <th>Nama Barang</th>
+                                            <th>Kategori</th>
                                             <th>Nama Warung</th>
                                             <th>Stok</th>
                                             <th>Harga</th>
@@ -77,6 +78,11 @@ echo base_url('assets/uploads/') . $photos[0]?>">
                                             <td>
                                                 <?=$warung['name']?></a>
                                             </td>
+
+                                            <td>
+                                                <?=$warung['nama_kategori']?></a>
+                                            </td>
+
                                             <td>
                                                 <a
                                                     href="<?php echo site_url('profile/show/') . $warung['username'] ?>"><?php echo $warung['username'] ?></a>

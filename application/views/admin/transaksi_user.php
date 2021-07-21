@@ -10,10 +10,10 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="page-title mb-1">Daftar Pembeli</h4>
+                        <h4 class="page-title mb-1">Daftar Transaksi Pembeli</h4>
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="<?php echo site_url('admin') ?>">Admin</a></li>
-                            <li class="breadcrumb-item active">Daftar Pembeli</li>
+                            <li class="breadcrumb-item active">Daftar Transaksi Pembeli</li>
                         </ol>
                     </div>
                 </div>
@@ -47,20 +47,17 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-
                                             <th>Username</th>
-                                            <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Status</th>
-                                            <th>Verifikasi</th>
+                                            <th>Nama Lengkap</th>
+                                            <th>Total Transaksi</th>
+
                                         </tr>
                                     </thead>
 
 
                                     <tbody>
-                                        <?php $no = 1;
-foreach ($users as $user): ?>
+                                        <?php $no = 1;?>
+                                        <?php foreach ($users as $user): ?>
                                         <tr>
                                             <td><?=$no;?></td>
 
@@ -69,48 +66,13 @@ foreach ($users as $user): ?>
                                                     class=""><?php echo $user['name'] ?></a></td>
 
                                             <td>
-                                                <p><?php echo $user['email']; ?>
+                                                <p><?php echo $user['jml'] . " Tranasaksi"; ?>
                                             </td>
 
-                                            <td>
-                                                <p><?php echo $user['phone']; ?>
-                                            </td>
-                                            <td>
-                                                <?php if ($user['is_aktif_cust'] == 1) {
-    echo '<span class="badge text-white bg-success">Aktif</span>';
-} else {
-    echo '<span class="badge text-white  bg-danger">Nonaktif</span>';
-}?>
-                                            </td>
 
-                                            <td>
-                                                <div class="btn-group" role="group">
-                                                    <?php if ($user['is_aktif_cust'] == 0) {?>
-                                                    <a class="btn btn-outline-secondary btn-sm"
-                                                        href="<?php echo site_url('admin/aktifasi_pembeli/') . $user['username'] ?>/1"
-                                                        data-toggle="tooltip" data-placement="top" title="Aktifkan"
-                                                        onclick="return confirm('Apkah Anda yakin ingin mengaktifkan pembeli?')">
-                                                        <span class="mdi mdi-pencil"></span>
-                                                    </a>
-                                                    <?php } else {?>
-                                                    <!-- <a class="btn btn-outline-secondary btn-sm"
-                                                        onclick="return confirm('Apakah Anda yakin akan nonaktifkan?');"
-                                                        href="<?php echo site_url('admin/keterangan_non_pembeli/') . $user['username'] ?>"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Nonaktifkan Akun">
-                                                        <span class="mdi mdi-account-off"></span>
-                                                    </a> -->
-
-                                                    <button class="btn btn-success"><i class="fas fa-check-circle"></i>
-                                                        Verified</button>
-
-                                                    <?php }?>
-
-                                                </div>
-                                            </td>
                                         </tr>
-                                        <?php $no++;
-endforeach;?>
+                                        <?php $no++;?>
+                                        <?php endforeach;?>
                                     </tbody>
                                 </table>
                             </div>

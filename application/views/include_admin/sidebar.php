@@ -36,11 +36,20 @@
                             </li>
 
                             <li>
+                                <a href="<?php echo site_url('admin/transaksi_warung') ?>" class="waves-effect">
+                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-box"></i></div>
+                                    <span>Data Transaksi Warung</span>
+                                </a>
+                            </li>
+
+                            <li>
                                 <a href="<?php echo site_url('admin/barang') ?>" class="waves-effect">
                                     <div class="d-inline-block icons-sm mr-1"><i class="uim uim-box"></i></div>
                                     <span>Data Barang</span>
                                 </a>
                             </li>
+
+
 
                             <li>
                                 <a href="<?php echo site_url('admin/billing') ?>" class="waves-effect">
@@ -67,10 +76,17 @@
                             </li>
 
                             <li>
+                                <a href="<?php echo site_url('admin/transaksi_user') ?>" class="waves-effect">
+                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-table"></i></div>
+                                    <span>Data Transaksi Pembeli</span>
+                                </a>
+                            </li>
+
+                            <li>
                                 <a href="<?php echo site_url('admin/review_pesanan') ?>" class="waves-effect">
                                     <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-alt-plus "></i>
                                     </div>
-                                    <span>Review Pesanan</span>
+                                    <span>Review</span>
                                 </a>
                             </li>
 
@@ -78,7 +94,7 @@
                                 <a href="<?php echo site_url('admin/comment') ?>" class="waves-effect">
                                     <div class="d-inline-block icons-sm mr-1"><i
                                             class="uim uim-comment-alt-message"></i></div>
-                                    <span>Kritik dan Saran</span>
+                                    <span>Data Hubungi Kami</span>
                                 </a>
                             </li>
 

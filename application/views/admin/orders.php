@@ -57,7 +57,7 @@
                                             <!-- <th>Aksi</th> -->
                                             <th>Update</th>
                                             <th>Tanggal</th>
-                                            <th>Method</th>
+                                            <th>Metode</th>
                                         </tr>
                                     </thead>
 

@@ -10,10 +10,10 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="page-title mb-1">Daftar Pembeli</h4>
+                        <h4 class="page-title mb-1">Daftar Transaksi Warung</h4>
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="<?php echo site_url('admin') ?>">Admin</a></li>
-                            <li class="breadcrumb-item active">Daftar Pembeli</li>
+                            <li class="breadcrumb-item active">Daftar Transaksi Warung</li>
                         </ol>
                     </div>
                 </div>
@@ -47,70 +47,41 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Gambar</th>
+                                            <th>Nama Warung</th>
+                                            <th>Alamat</th>
+                                            <th>Total Barang Terjual</th>
 
-                                            <th>Username</th>
-                                            <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Status</th>
-                                            <th>Verifikasi</th>
+
                                         </tr>
                                     </thead>
 
 
                                     <tbody>
-                                        <?php $no = 1;
-foreach ($users as $user): ?>
+                                        <?php $no = 1;?>
+                                        <?php foreach ($warungs as $warung): ?>
                                         <tr>
                                             <td><?=$no;?></td>
-
-                                            <td><?=$user["username"]?></>
-                                            <td><a href="<?php echo site_url('profile/show/') . $user['username'] ?>"
-                                                    class=""><?php echo $user['name'] ?></a></td>
-
                                             <td>
-                                                <p><?php echo $user['email']; ?>
-                                            </td>
-
-                                            <td>
-                                                <p><?php echo $user['phone']; ?>
+                                                <img style="width: 100px;" class="img-thumbnail img-fluid" src="<?php $photos = explode(',', $warung['photo']);
+echo base_url('assets/uploads/') . $photos[0]?>">
                                             </td>
                                             <td>
-                                                <?php if ($user['is_aktif_cust'] == 1) {
-    echo '<span class="badge text-white bg-success">Aktif</span>';
-} else {
-    echo '<span class="badge text-white  bg-danger">Nonaktif</span>';
-}?>
+                                                <a
+                                                    href="<?php echo site_url('profile/show/') . $warung['username'] ?>"><?php echo $warung['name'] ?></a>
                                             </td>
-
                                             <td>
-                                                <div class="btn-group" role="group">
-                                                    <?php if ($user['is_aktif_cust'] == 0) {?>
-                                                    <a class="btn btn-outline-secondary btn-sm"
-                                                        href="<?php echo site_url('admin/aktifasi_pembeli/') . $user['username'] ?>/1"
-                                                        data-toggle="tooltip" data-placement="top" title="Aktifkan"
-                                                        onclick="return confirm('Apkah Anda yakin ingin mengaktifkan pembeli?')">
-                                                        <span class="mdi mdi-pencil"></span>
-                                                    </a>
-                                                    <?php } else {?>
-                                                    <!-- <a class="btn btn-outline-secondary btn-sm"
-                                                        onclick="return confirm('Apakah Anda yakin akan nonaktifkan?');"
-                                                        href="<?php echo site_url('admin/keterangan_non_pembeli/') . $user['username'] ?>"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Nonaktifkan Akun">
-                                                        <span class="mdi mdi-account-off"></span>
-                                                    </a> -->
-
-                                                    <button class="btn btn-success"><i class="fas fa-check-circle"></i>
-                                                        Verified</button>
-
-                                                    <?php }?>
-
-                                                </div>
+                                                <?php $phrase = $warung['address'];?>
+                                                <?php echo implode(' ', array_slice(str_word_count($phrase, 2), 0, 5)); ?>
                                             </td>
+
+                                            <td><?=$warung['jml']?> Unit</td>
+
+
                                         </tr>
-                                        <?php $no++;
-endforeach;?>
+                                        <?php $no++;?>
+                                        <?php endforeach;?>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -176,14 +147,47 @@ endforeach;?>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="nonaktifModal" tabindex="-1" role="dialog" aria-labelledby="nonaktifModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nonaktifModalLabel">Nonaktif Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" enctype="multipart/form-data" id="form_nonaktif">
+                        <div class="form-group">
+                            <label for="asdasdasd">Alasan</label>
+                            <textarea class="form-control" name="alasan" id="asdasdasd"
+                                placeholder="Alasan tidak aktif"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit">Nonaktifkan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
     $(document).ready(function() {
         $('.myTablesss').DataTable();
-        $(document).on('click', "#btn_nonaktif", function() {
-            var _uswarung = $("#btn_nonaktif").attr("data-username");
-            $('#form_unapprove').attr('action', "<?php echo site_url('admin/aktifasi_cust/') ?>" +
-                _uswarung + "/0");
+        $(document).on('click', "#btn_unapprove", function() {
+            var _uswarung = $("#btn_unapprove").attr("data-username");
+            $('#form_unapprove').attr('action', "<?php echo site_url('admin/unapprove/') ?>" +
+                _uswarung);
             $("#exampleModal").modal('show');
+        });
+        $(document).on('click', "#btn_nonaktif", function() {
+            var _uswarung = $("#btn_nonaktif").attr("data-id");
+            $('#form_nonaktif').attr('action', "<?php echo site_url('admin/aktifasi_warung/') ?>" +
+                _uswarung + "/0");
+            $("#nonaktifModal").modal('show');
         });
     });
     </script>

@@ -187,4 +187,37 @@ class users extends CI_Model
         return $this->db->get();
     }
 
+    public function getBarangCategories()
+    {
+
+        $this->db->select('*, c.name nama_kategori');
+        $this->db->from('items i');
+        $this->db->join('categories c', 'i.category = c.id');
+        return $this->db->get();
+    }
+
+    public function getTransactionUsers()
+    {
+
+        $this->db->select('*, COUNT(i.user) jml');
+        $this->db->from('users u');
+        $this->db->join('invoices i', 'u.username = i.user', 'LEFT');
+        $this->db->where('role', 0);
+        $this->db->where('is_aktif_cust', 1);
+        $this->db->group_by('u.username');
+        $this->db->order_by('jml DESC');
+        return $this->db->get()->result_array();
+    }
+
+    public function get_warungs_all_transaction()
+    {
+        $this->db->select('*, COUNT(i.warung) jml');
+        $this->db->from('users');
+        $this->db->join('warungs', 'users.username = warungs.username');
+        $this->db->join('invoices i', 'users.username = i.warung', 'LEFT');
+        $this->db->group_by('users.username');
+        $this->db->order_by('jml', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
 }

@@ -65,7 +65,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Pembeli</th>
-                                            <th>Nama Toko</th>
+                                            <th>Nama Warung</th>
                                             <th>Barang</th>
                                             <th>Review</th>
                                             <th>Rating</th>

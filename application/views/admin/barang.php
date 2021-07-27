@@ -70,13 +70,13 @@
 foreach ($warungs as $warung): ?>
                                         <tr>
                                             <td><?=$no;?></td>
-                                            <td><?=$warung['id'];?></td>
+                                            <td><?=$warung['id_barang'];?></td>
                                             <td>
                                                 <img style="width: 100px;" class="img-thumbnail img-fluid" src="<?php $photos = explode(',', $warung['photo']);
 echo base_url('assets/uploads/') . $photos[0]?>">
                                             </td>
                                             <td>
-                                                <?=$warung['name']?></a>
+                                                <?=$warung['name_barang']?></a>
                                             </td>
 
                                             <td>
@@ -117,10 +117,10 @@ echo base_url('assets/uploads/') . $photos[0]?>">
 
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <?php if ($warung['hide'] == 0): ?>
-                                                        <a href="<?=base_url('admin/update_stat_barang/1/') . $warung['id']?>"
+                                                        <a href="<?=base_url('admin/update_stat_barang/1/') . $warung['id_barang']?>"
                                                             class="btn dropdown-item"> Non Aktifkan </a>
                                                         <?php else: ?>
-                                                        <a href="<?=base_url('admin/update_stat_barang/0/') . $warung['id']?>"
+                                                        <a href="<?=base_url('admin/update_stat_barang/0/') . $warung['id_barang']?>"
                                                             class="btn dropdown-item">Aktifkan </a>
                                                         <?php endif;?>
                                                     </div>

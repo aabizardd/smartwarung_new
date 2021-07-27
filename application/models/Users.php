@@ -190,7 +190,7 @@ class users extends CI_Model
     public function getBarangCategories()
     {
 
-        $this->db->select('*, c.name nama_kategori');
+        $this->db->select('*, c.name nama_kategori, i.id id_barang, i.name name_barang');
         $this->db->from('items i');
         $this->db->join('categories c', 'i.category = c.id');
         return $this->db->get();

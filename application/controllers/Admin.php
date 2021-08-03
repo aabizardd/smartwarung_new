@@ -33,7 +33,44 @@ class admin extends CI_Controller
         $data['item_terlaku'] = $this->templates->query("SELECT SUM(quantity) total,items.name FROM `invoice_details` JOIN items ON items.id=invoice_details.item JOIN invoices ON invoices.id=invoice_details.id WHERE invoices.status = 'Sudah diterima' GROUP BY items.name ORDER BY total DESC LIMIT 5")->result();
         $data['orders'] = $this->templates->query("SELECT * FROM `invoices` where status != 'Dibatalkan' ORDER BY `date` DESC LIMIT 5")->result();
 
-        $data['grafik_penjualan'] = $this->templates->query("SELECT COUNT(id) as total FROM `invoices` GROUP BY month(date)")->result();
+        $data['grafik_penjualan'] = $this->templates->query("SELECT COUNT(id) as total, MONTH(date) bulan FROM `invoices` GROUP BY month(date)")->result();
+
+        $data['bulan_tersedia'] = [];
+
+        foreach ($data['grafik_penjualan'] as $item) {
+
+            // var_dump(date('Y-m-d', $item->date));die();
+            $bln = "";
+            if ($item->bulan == 1) {
+                $bln = "Jan";
+            } elseif ($item->bulan == 2) {
+                $bln = "Feb";
+            } elseif ($item->bulan == 3) {
+                $bln = "Mar";
+            } elseif ($item->bulan == 4) {
+                $bln = "Apr";
+            } elseif ($item->bulan == 5) {
+                $bln = "Mei";
+            } elseif ($item->bulan == 6) {
+                $bln = "Jun";
+            } elseif ($item->bulan == 7) {
+                $bln = "Jul";
+            } elseif ($item->bulan == 8) {
+                $bln = "Aug";
+            } elseif ($item->bulan == 9) {
+                $bln = "Sep";
+            } elseif ($item->bulan == 10) {
+                $bln = "Okt";
+            } elseif ($item->bulan == 11) {
+                $bln = "Nov";
+            } elseif ($item->bulan == 12) {
+                $bln = "Des";
+            }
+            array_push($data['bulan_tersedia'], $bln);
+        }
+
+        // var_dump($data['bulan_tersedia']);die();
+
         $data['grafik_warung'] = $this->templates->query("SELECT COUNT(*) as total, warung FROM `invoices` JOIN warungs ON warungs.username = invoices.warung WHERE invoices.status LIKE 'Sudah%' GROUP BY invoices.warung")->result();
         $data['grafik_pendapatan'] = $this->templates->query("SELECT SUM(invoices.billing) AS total,warungs.username as warung FROM warungs LEFT JOIN invoices ON invoices.warung=warungs.username WHERE invoices.status LIKE 'Sudah%' GROUP BY warungs.username")->result();
         $data['grafik_pembeli'] = $this->templates->query("SELECT COUNT(*) AS total, users.name FROM `invoices` JOIN users ON users.username=invoices.user WHERE users.role = 0 AND invoices.status LIKE 'Sudah%' GROUP BY users.name LIMIT 10")->result();
@@ -645,8 +682,10 @@ class admin extends CI_Controller
         echo $alasan;
 
         $username = $this->input->post('username');
+
         $this->templates->update('warungs', ['id' => $id], ['is_aktif' => $status, 'alasan' => $alasan]);
         $this->templates->update('users', ['username' => $username], ['is_aktif_cust' => 99]);
+
         $this->session->set_flashdata('success', 'Status warung berhasil diubah!');
         redirect('admin/warung');
     }

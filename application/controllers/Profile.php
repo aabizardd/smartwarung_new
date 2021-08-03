@@ -23,8 +23,6 @@ class profile extends CI_Controller
         $data['user'] = $this->users->get_username($this->session->userdata('username'));
         $data['invoices'] = $this->invoices->get_all_invoices($this->session->userdata('username'));
         $data['active'] = 'index';
-        
-        
 
         if ($this->session->userdata('role') == 0) {
             $data['user'] = $this->users->get_username($this->session->userdata('username'));
@@ -39,18 +37,18 @@ class profile extends CI_Controller
             $this->load->view('profile/index', $data);
             $this->load->view('include/footer');
         } else {
-            
+
             $data['warung'] = $this->users->get_user_warung($this->session->userdata('username'));
             $data['user'] = $this->users->get_username($this->session->userdata('username'));
             $data['invoices'] = $this->invoices->get_all_invoices($this->session->userdata('username'));
             $data['active'] = 'index';
             $data['items'] = $this->categories->get_all_item_warung_user($this->session->userdata('username'));
-            
+
             $data['rating_warung'] = $this->ratings->rate_warung($this->uri->segment(3));
 
-        if ($data['rating_warung'] == null) {
-            $data['rating_warung']['rating_warung'] = 0;
-        }
+            if ($data['rating_warung'] == null) {
+                $data['rating_warung']['rating_warung'] = 0;
+            }
 
             $this->load->view('include/meta');
             $this->load->view('include/header');

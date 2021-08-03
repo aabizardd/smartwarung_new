@@ -21,12 +21,15 @@ if ($this->session->userdata('login', true)) {
         <div class="col-lg-3">
         </div>
         <div class="col-lg-9">
-            <div class="contact-form gray-bg m-t-40">
+
+
+
+            <div class="contact-form gray-bg">
                 <div class="section-content">
                     <h5 class="section-content__title">Kritik Saran/Hubungi Warung <?php echo $user['name']; ?></h5>
                 </div>
-                <form action="<?php echo base_url(); ?>/comment/send" class="contact-form-style" method="post"
-                    id="form-comment" enctype="multipart/form-data">
+                <form action="<?php echo base_url(); ?>/comment/send_review_warung" class="contact-form-style"
+                    method="post" id="form-comment" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="review-box">
@@ -122,7 +125,7 @@ if ($this->session->userdata('login', true)) {
                                 </div>
                             </div>
 
-                            <button id="tombol_tambah" type="submit"
+                            <button type="submit"
                                 class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-t-30">Kirim</button>
                         </div>
 
@@ -187,24 +190,7 @@ $(document).ready(function() {
             // $("#inp_comment").val("");
             return false;
         }
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url(); ?>/comment/send",
-            data: data,
-            dataType: "json",
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                $("#inp_comment").val("");
-                alert("Terimakasih telah menghubungi/memberi kami pesan kami");
-            },
-            error: (e) => {
-                console.log(e);
 
-                alert("Error, something wrong.");
-            }
-        });
     });
 });
 </script>

@@ -73,8 +73,8 @@
 
 
                                     <tbody>
-                                        <?php $no = 1;
-foreach ($comment as $key): ?>
+                                        <?php $no = 1;?>
+                                        <?php foreach ($comment as $key): ?>
                                         <tr>
                                             <td><?=$no;?></td>
                                             <td>

@@ -18,6 +18,9 @@ class admin extends CI_Controller
         }
 
         $this->load->library('form_validation');
+
+        // $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-@\=';
+
     }
 
     public function index()
@@ -201,6 +204,124 @@ class admin extends CI_Controller
         $this->load->view('include_admin/footer');
     }
 
+    public function req_aktif_warung()
+    {
+
+        $data['active'] = 'warung';
+        $data['users'] = $this->users->get_users();
+        $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
+        $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
+        $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();
+
+        $data['pengajuan_aktivasi'] = $this->db->get('pengajuan_aktifasi_akun')->result();
+
+        $this->load->view('include_admin/meta');
+        $this->load->view('include_admin/header');
+        $this->load->view('include_admin/sidebar');
+        $this->load->view('admin/req_aktif_warung', $data);
+        $this->load->view('include_admin/footer');
+    }
+
+    public function pengajuan($username = "", $email = "", $tipe)
+    {
+
+        $data_warung = $this->db->get_where('warungs', ['username' => $username])->row_array();
+
+        //cek username, tersedia atau tidak
+
+        if ($data_warung) {
+
+            //cek sudah aktif atau belum
+
+            if ($data_warung['is_aktif'] == 0) {
+                if ($tipe == "terima") {
+
+                    $this->db->update('warungs', ['is_aktif' => 1], ['username' => $username]);
+                    $this->db->update('users', ['is_aktif_cust' => 1], ['username' => $username]);
+                    $this->db->update('pengajuan_aktifasi_akun', ['status' => 1], ['username' => $username]);
+
+                    $this->session->set_flashdata('success', 'Pengajuan diterima, pemberitahuan telah dikirim ke email pemohon');
+
+                    //kirim email pemberitahuan diterima
+
+                    $this->_sendEmaiPengajuan('terima', $email);
+
+                }
+
+                redirect('admin/req_aktif_warung');
+            } else {
+                $this->session->set_flashdata('errors', 'Akun warung masih dalam status aktif');
+
+                redirect('admin/req_aktif_warung');
+            }
+
+        } else {
+            $this->session->set_flashdata('errors', 'Username belum terdaftar, silahkan tolak pengajuan');
+
+            redirect('admin/req_aktif_warung');
+        }
+
+    }
+
+    public function tolak_pengajuan()
+    {
+
+        $alasan = htmlspecialchars($this->input->post('alasan'), true);
+        $email = htmlspecialchars($this->input->post('email'), true);
+        $username = htmlspecialchars($this->input->post('username'), true);
+
+        // var_dump($username);die();
+
+        $this->db->update('pengajuan_aktifasi_akun', ['status' => 2], ['username' => $username]);
+
+        $this->_sendEmaiPengajuan('tolak', $email, $alasan);
+
+        $this->session->set_flashdata('errors', 'Pengajuan ditolak, alasan telah dikirim ke email pemohon');
+
+        //kirim email pemberitahuan ditolak
+        redirect('admin/req_aktif_warung');
+
+    }
+
+    private function _sendEmaiPengajuan($type, $email, $alasan = "")
+    {
+
+        $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
+
+        $this->load->library('email');
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_user' => $data_config['email'],
+            'smtp_pass' => $data_config['password'],
+            'smtp_port' => 465,
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'newline' => "\r\n",
+        ];
+
+        $this->email->initialize($config);
+        $this->email->from('admin@smartwarung.com', 'Admin Smart Warung');
+        $this->email->to($email);
+
+        if ($type == 'terima') {
+
+            $this->email->subject('Penerimaan Pengajuan Aktivasi Akun Warung');
+            $this->email->message('Akun warung anda berhasil kami aktifkan kembali, silahkan gunakan akun anda kembali!');
+        } else if ($type == 'tolak') {
+
+            $this->email->subject('Maaf Akun Warung Anda Masih Kami Tolak');
+            $this->email->message($alasan);
+        }
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            echo $this->email->print_debugger();
+            die;
+        }
+    }
+
     public function barang()
     {
         $data['warungs'] = $this->users->getBarangCategories()->result_array();
@@ -344,7 +465,7 @@ class admin extends CI_Controller
         $data['warungs'] = $this->users->get_warungs();
         $data['active'] = 'comment';
         $data['users'] = $this->users->get_users();
-        $data['comment'] = $this->db->get_where('comments', ['to_whom !=' => 'admin'])->result_array();
+        $data['comment'] = $this->db->get('review_warung')->result_array();
         $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
         $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
         $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();

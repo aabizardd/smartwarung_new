@@ -73,6 +73,13 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="<?php echo site_url('admin/req_aktif_warung') ?>" class="waves-effect">
+                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-graph-bar"></i></div>
+                                    <span>Request Aktivasi Warung</span>
+                                </a>
+                            </li>
+
                             <li class="menu-title">Pembeli</li>
 
                             <li>

@@ -24,6 +24,13 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="<?php echo site_url('admin/config_email') ?>" class="waves-effect">
+                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-at"></i></div>
+                                    <span>Konfigurasi Email</span>
+                                </a>
+                            </li>
+
 
 
                             <li class="menu-title">Warung</li>

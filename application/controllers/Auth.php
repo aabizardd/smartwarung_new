@@ -229,6 +229,12 @@ class auth extends CI_Controller
                     $this->session->set_userdata('isBuyer', true);
                     redirect('home', 'refresh');
                 }
+            } elseif ($data['user']['is_aktif_cust'] == 99) {
+                $pesan = "Akun anda sedang di non-aktif kan klik ";
+                $pesan .= "<a href=" . base_url('hubungi/req_aktif') . ">disini </a>";
+                $pesan .= "untuk pengajuan aktivasi akun kembali";
+                $this->session->set_flashdata('errors', $pesan);
+                redirect('auth/login', 'refresh');
             } else {
                 $this->session->set_flashdata('errors', 'Akun sedang ditangguhkan');
                 redirect('auth/login', 'refresh');

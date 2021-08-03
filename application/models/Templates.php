@@ -81,4 +81,15 @@ class templates extends CI_Model
         $query = $this->db->get($tabel, $limit, $start);
         return $query;
     }
+
+    public function get_full_data_warung($id)
+    {
+
+        $this->db->select('*');
+        $this->db->from('warungs w');
+        $this->db->join('users', 'username');
+        $this->db->where('w.id', $id);
+
+        return $this->db->get();
+    }
 }

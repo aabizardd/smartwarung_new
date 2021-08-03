@@ -28,16 +28,7 @@ if ($this->session->userdata('login', true)) {
    <main id="main-container" class="main-container">
        <div class="container">
            <div class="row">
-               <?php if ($this->session->flashdata('errors') != ''): ?>
-               <div class="alert alert-danger text-center" role="alert">
-                   <?php echo $this->session->flashdata('errors'); ?>
-               </div>
-               <?php endif;?>
-               <?php if ($this->session->flashdata('success') != ''): ?>
-               <div class="alert alert-success text-center" role="alert">
-                   <?php echo $this->session->flashdata('success') ?>
-               </div>
-               <?php endif;?>
+
                <!--
                 <div class="col-12">
                     <div id="map">
@@ -46,6 +37,7 @@ if ($this->session->userdata('login', true)) {
                 </div>
             -->
                <div class="col-lg-4 col-md-5">
+
                    <div class="contact-info-wrap gray-bg m-t-40">
                        <div class="single-contact-info">
                            <div class="contact-icon">
@@ -92,8 +84,7 @@ if ($this->session->userdata('login', true)) {
 
                            <div class="list-group">
 
-                               <a href="<?=base_url('hubungi/req_aktif')?>"
-                                   class="list-group-item list-group-item-action">
+                               <a href="req_aktif" class="list-group-item list-group-item-action active">
                                    Aktifkan kembali akun warung</a>
                                <!-- <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
                                <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
@@ -105,50 +96,108 @@ if ($this->session->userdata('login', true)) {
                </div>
 
                <div class="col-lg-8 col-md-7">
+
                    <div class="contact-form gray-bg m-t-40">
-                       <div class="section-content">
-                           <h5 class="section-content__title">Hubungi Kami</h5>
+
+                       <?php if ($this->session->flashdata('errors') != ''): ?>
+                       <div class="alert alert-danger text-center" role="alert">
+                           <?php echo $this->session->flashdata('errors'); ?>
                        </div>
-                       <form action="<?php echo base_url(); ?>/comment/send" class="contact-form-style" method="post"
-                           id="form-comment" enctype="multipart/form-data">
+                       <?php endif;?>
+                       <?php if ($this->session->flashdata('success') != ''): ?>
+                       <div class="alert alert-success text-center" role="alert">
+                           <?php echo $this->session->flashdata('success') ?>
+                       </div>
+                       <?php endif;?>
+
+                       <a class="btn btn-danger text-white" href="<?=base_url('hubungi')?>"><i
+                               class="fas fa-arrow-left"></i> Kembali</a>
+
+                       <div class="section-content mt-2">
+                           <center>
+                               <h5 class="section-content__title">Pengajuan Pengaktifan Akun</h5>
+                           </center>
+
+                       </div>
+                       <form action="<?php echo base_url(); ?>/hubungi/req_aktif" class="contact-form-style"
+                           method="post" id="form-comment" enctype="multipart/form-data">
                            <div class="row">
-                               <div class="col-lg-6">
+
+                               <small class="text-danger ">*Wajib diisi</small>
+
+                               <div class="col-lg-12">
                                    <div class="form-box__single-group">
-                                       <label for="comment-name">Nama Lengkap</label>
-                                       <input class="form-control" id="comment-to=whom" type="hidden" name="to_whom"
-                                           value="admin" required>
-                                       <input class="form-control" id="comment-name" type="text" name="name"
-                                           value="<?=$name?>" required>
+                                       <label for="comment-name">Nama Lengkap <font class="text-danger">*</font>
+                                       </label>
+                                       <input class="form-control" id="comment-name" type="text" name="nama"
+                                           value="<?=set_value('nama');?>">
+
                                    </div>
+                                   <?=form_error('nama', '<small class="text-danger font-italic">*', '</small>');?>
+
                                </div>
-                               <div class="col-lg-6">
+
+                               <div class="col-lg-12">
                                    <div class="form-box__single-group">
-                                       <label for="comment-usname">Username / Email</label>
-                                       <input class="form-control" id="comment-usname" type="text" name="usname"
-                                           value="<?=$email?>" required>
+                                       <label for="comment-name">Username Akun Warung <font class="text-danger">*</font>
+                                       </label>
+                                       <input class="form-control" id="comment-name" type="text" name="akun"
+                                           value="<?=set_value('akun');?>">
+
                                    </div>
+                                   <small style="font-size: 11px;">Akun SmartWarung anda</small> <br>
+                                   <?=form_error('akun', '<small class="text-danger font-italic">*', '</small>');?>
                                </div>
+
+                               <div class="col-lg-12">
+                                   <div class="form-box__single-group">
+                                       <label for="comment-name">Alamat Email <font class="text-danger">*</font></label>
+                                       <input class="form-control" id="comment-name" type="email" name="email"
+                                           value="<?=set_value('email');?>">
+                                   </div>
+                                   <small style="font-size: 11px;">Alamat email yang terhubung dengan akun SmartWarung
+                                       anda / alamat email yang dapat dihubungi</small> <br>
+                                   <?=form_error('email', '<small class="text-danger font-italic">*', '</small>');?>
+                               </div>
+
+                               <div class="col-lg-12">
+                                   <div class="form-box__single-group">
+                                       <label for="comment-name">Nomor Handphone yang Bisa Dihubungi <font
+                                               class="text-danger">*</font></label>
+                                       <input class="form-control" name="no_hp" value="<?=set_value('no_hp');?>"
+                                           type="number">
+                                   </div>
+                                   <small style="font-size: 11px;">Pastikan kamu mengisi handphone dengan benar dan
+                                       diawali dengan angka 62 (Contoh: 62XXXXXXXXX)</small> <br>
+                                   <?=form_error('no_hp', '<small class="text-danger font-italic">*', '</small>');?>
+                               </div>
+
+                               <div class="col-lg-12">
+                                   <div class="form-box__single-group">
+                                       <label for="comment-name">Kendala yang Dihadapi <font class="text-danger">*
+                                           </font></label>
+                                       <input class="form-control" type="text" name="kendala"
+                                           value="<?=set_value('kendala');?>">
+                                   </div>
+                                   <small style="font-size: 11px;">Mohon jelaskan kendala yang dihadapi</small> <br>
+                                   <?=form_error('kendala', '<small class="text-danger font-italic">*', '</small>');?>
+                               </div>
+
+
                                <div class="col-lg-12">
                                    <div class="form-box__single-group">
                                        <label for="comment-file">Upload Bukti</label>
-                                       <input id="comment-file" type="file" name="file" required>
+                                       <input id="comment-file" type="file" name="file">
                                    </div>
+                                   <small style="font-size: 11px;">Bukti screenshot tentang kendala yang
+                                       dihadapi</small>
                                </div>
+
+
                                <div class="col-lg-12">
-                                   <div class="form-box__single-group">
-                                       <label for="inp_comment">Pesan Anda</label>
-                                       <textarea class="form-control" name="comment" id="inp_comment" rows="10"
-                                           required></textarea>
-                                   </div>
 
-                                   <div class="form-box__single-group">
-                                       <div class="g-recaptcha" data-sitekey="6LdIYIMbAAAAAKGt3AdpnUMhan_zugneaQYD4sBx">
-                                       </div>
-                                   </div>
 
-                                   <input type="hidden" name="rating" value="0">
-
-                                   <button id="tombol_tambah" type="submit"
+                                   <button type="submit"
                                        class="btn btn--box btn--small btn--blue btn--uppercase btn--weight m-t-30">Kirim</button>
                                </div>
 
@@ -226,5 +275,4 @@ $(document).ready(function() {
         });
     });
 });
-
    </script>

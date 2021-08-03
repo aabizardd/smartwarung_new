@@ -16,6 +16,8 @@ class admin extends CI_Controller
         } elseif ($this->session->userdata('role') == 0) {
             redirect('home', 'refresh');
         }
+
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -66,6 +68,53 @@ class admin extends CI_Controller
         $this->load->view('include_admin/sidebar');
         $this->load->view('admin/orders', $data);
         $this->load->view('include_admin/footer');
+    }
+
+    public function config_email()
+    {
+        $data['warungs'] = $this->users->get_warungs();
+        // $data['orders'] = $this->templates->view_where_desc('invoices', ['method' => 'Transfer, COD'], 'date')->result();
+        $data['email'] = $this->db->get('config_email')->result();
+        $data['users'] = $this->users->get_users();
+        $data['active'] = 'orders';
+        $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
+        $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
+        $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();
+
+        $this->form_validation->set_rules('email', "Email", 'required|valid_email', [
+            'required' => "Email wajib diisi",
+            'valid_email' => "Email tidak valid",
+        ]);
+
+        $this->form_validation->set_rules('password', "Password", 'required|min_length[8]', [
+            'required' => "Password wajib diisi",
+            'min_lenth' => "Password minimal 8 karakter",
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('include_admin/meta');
+            $this->load->view('include_admin/header');
+            $this->load->view('include_admin/sidebar');
+            $this->load->view('admin/config_email', $data);
+            $this->load->view('include_admin/footer');
+        } else {
+
+            $email = $this->input->post('email');
+            $password = $this->input->post('password');
+
+            $data = [
+                'email' => $email,
+                'password' => $password,
+            ];
+
+            $where = [
+                'id' => 1,
+            ];
+
+            $this->db->update('config_email', $data, $where);
+            $this->session->set_flashdata('success', 'Data email berhasil diubah');
+            redirect('admin/config_email');
+        }
     }
 
     public function test()
@@ -430,7 +479,7 @@ class admin extends CI_Controller
 
     public function keterangan_non_warung($id)
     {
-        $data_item = $this->templates->view_where('warungs', ['id' => $id])->row_array();
+        $data_item = $this->templates->get_full_data_warung($id)->row_array();
         $data['item'] = $data_item;
         $data['warungs'] = $this->users->get_warungs_all();
         $data['active'] = 'warung';
@@ -454,6 +503,7 @@ class admin extends CI_Controller
         $data_a = [];
         if ($status == 0) {
             $alasan = $this->input->post('alasan');
+            $email = $this->input->post('email');
 
             foreach ($alasan as $key => $value) {
 
@@ -465,13 +515,17 @@ class admin extends CI_Controller
 
                 $alasan = implode(", ", $data_a);
             }
+            $this->_sendEmailNonAktif($email, $alasan);
 
         } else {
             $alasan = '';
         }
 
         echo $alasan;
+
+        $username = $this->input->post('username');
         $this->templates->update('warungs', ['id' => $id], ['is_aktif' => $status, 'alasan' => $alasan]);
+        $this->templates->update('users', ['username' => $username], ['is_aktif_cust' => 99]);
         $this->session->set_flashdata('success', 'Status warung berhasil diubah!');
         redirect('admin/warung');
     }
@@ -664,12 +718,14 @@ class admin extends CI_Controller
     private function _sendEmail()
     {
 
+        $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
+
         $this->load->library('email');
         $config = [
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'smartwarung11@gmail.com',
-            'smtp_pass' => 'Adminsmart11@_',
+            'smtp_user' => $data_config['email'],
+            'smtp_pass' => $data_config['password'],
             'smtp_port' => 465,
             'mailtype' => 'html',
             'charset' => 'utf-8',
@@ -682,6 +738,38 @@ class admin extends CI_Controller
 
         $this->email->subject('Balasan Kritikan Anda Terhadap Website SmartWarung');
         $this->email->message($this->input->post('balasan'));
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            echo $this->email->print_debugger();
+            die;
+        }
+    }
+
+    private function _sendEmailNonAktif($email, $alasan)
+    {
+
+        $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
+
+        $this->load->library('email');
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_user' => $data_config['email'],
+            'smtp_pass' => $data_config['password'],
+            'smtp_port' => 465,
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'newline' => "\r\n",
+        ];
+
+        $this->email->initialize($config);
+        $this->email->from('admin@smartwarung.site', 'Admin SmartWarung');
+        $this->email->to($email);
+
+        $this->email->subject('Alasan akun anda kamu non-aktifkan');
+        $this->email->message($alasan);
 
         if ($this->email->send()) {
             return true;

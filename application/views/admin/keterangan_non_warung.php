@@ -36,9 +36,15 @@
                                         <label class="col-md-2 col-form-label">Nama Warung</label>
                                         <div class="col-md-10">
                                             <input class="form-control" type="text"
-                                                value="<?php echo $item['username'] ?>" readonly="readonly">
+                                                value="<?php echo $item['username'] ?>" readonly="readonly"
+                                                name="username">
+
                                         </div>
                                     </div>
+
+                                    <input class="form-control" type="hidden" value="<?php echo $item['email'] ?>"
+                                        readonly="readonly" name="email">
+
 
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Alamat</label>

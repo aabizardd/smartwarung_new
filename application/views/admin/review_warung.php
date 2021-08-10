@@ -66,7 +66,7 @@
                                             <th>Username</th>
                                             <th>Kepada</th>
                                             <th>Pesan</th>
-                                            <th>Bukti</th>
+                                            <!-- <th>Bukti</th> -->
                                             <th>Rating</th>
                                         </tr>
                                     </thead>
@@ -93,11 +93,7 @@ echo 'Jam : ' . date("H:i", strtotime($key['date']))
                                             <td><?php echo $key['username'] ?></td>
                                             <td><?php echo $key['to_whom'] ?></td>
                                             <td><?php echo $key['message'] ?></td>
-                                            <td><a href="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
-                                                    target="_blank"><img class="img-thumbnail img-fluid"
-                                                        src="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
-                                                        width="150"></a>
-                                            </td>
+
                                             <td>
                                                 <?php for ($i = 0; $i < $key['rating']; $i++): ?>
                                                 <img src="<?=base_url('assets_admin/images/star.png')?>" alt=""

@@ -66,7 +66,7 @@
                                                     class=""><?php echo $user['name'] ?></a></td>
 
                                             <td>
-                                                <p><?php echo $user['jml'] . " Tranasaksi"; ?>
+                                                <p><?php echo $user['jml'] . " Transaksi"; ?>
                                             </td>
 
 

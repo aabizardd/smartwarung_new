@@ -80,6 +80,13 @@
                                                                <input type="file" name="ktp[]" multiple
                                                                    class="form-control" required>
                                                            </div>
+
+                                                           <div class="form-box__single-group">
+                                                               <div class="g-recaptcha"
+                                                                   data-sitekey="6Lf2K4sbAAAAACnfnehFp8UdnhwcePKM_wWzt5PI">
+                                                               </div>
+                                                           </div>
+
                                                            <div
                                                                class="d-flex justify-content-between flex-wrap m-tb-20">
                                                                <a href=""></a>

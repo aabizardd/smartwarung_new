@@ -44,7 +44,7 @@ class users extends CI_Model
     }
     public function get_billing_cash()
     {
-        return $this->db->query('SELECT SUM(invoices.billing) AS total,warungs.username FROM warungs LEFT JOIN invoices ON invoices.warung=warungs.username WHERE invoices.method="COD" AND invoices.status ="Sudah diterima" GROUP BY warungs.username');
+        return $this->db->query('SELECT SUM(invoices.billing) AS total,warungs.username FROM warungs LEFT JOIN invoices ON invoices.warung=warungs.username WHERE invoices.method="COD" AND invoices.status IN("Sudah diterima", "Sudah diterima dan diulas") GROUP BY warungs.username');
     }
 
     public function store_warung($username, $photo, $ktp)

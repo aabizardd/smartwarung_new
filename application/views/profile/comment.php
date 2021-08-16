@@ -121,7 +121,7 @@ if ($this->session->userdata('login', true)) {
                             </div>
 
                             <div class="form-box__single-group">
-                                <div class="g-recaptcha" data-sitekey="6LdIYIMbAAAAAKGt3AdpnUMhan_zugneaQYD4sBx">
+                                <div class="g-recaptcha" data-sitekey="6Lf2K4sbAAAAACnfnehFp8UdnhwcePKM_wWzt5PI">
                                 </div>
                             </div>
 

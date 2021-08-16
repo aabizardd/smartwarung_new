@@ -10,10 +10,10 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="page-title mb-1">Daftar Invoice Menunggu Diverifikasi</h4>
+                        <h4 class="page-title mb-1">Daftar Pesanan</h4>
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="<?php echo site_url('admin') ?>">Admin</a></li>
-                            <li class="breadcrumb-item active">Pesanan</li>
+                            <li class="breadcrumb-item active">Daftar Pesanan</li>
                         </ol>
                     </div>
                 </div>

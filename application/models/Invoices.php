@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class invoices extends CI_Model
 {
-    public function store($result = null)
+     public function store($result = null)
     {
         if ($this->input->post('method') == 'COD') {
             $data = array(
@@ -27,30 +27,59 @@ class invoices extends CI_Model
 
             );
         } else {
-            $data = array(
-                'id' => $result['order_id'],
-                'user' => $this->session->userdata('username'),
-                'warung' => $this->input->post('warung'),
-                //'origin'        => $this->input->post('origin'),
-                'origin' => $this->input->post('origin'),
-                'origin_id' => $this->input->post('origin-place_id'),
-                //'origin_id'     => $this->input->post('origin-place_id'),
-                //'destination'   => $this->input->post('destination'),
-                //'destination_id'=> $this->input->post('destination-place_id'),
-                'destination' => $this->input->post('destination'),
-                'destination_id' => $this->input->post('destination-place_id'),
-                'distance' => floatval($this->input->post('distance')),
-                'delivery_fee' => $this->input->post('delivery_fee'),
-                'billing' => $this->input->post('billing'),
-                'total' => $this->input->post('total'),
-                'status' => $result['status_code'],
-                'method' => $this->input->post('method'),
-                'bank_account_number' => $result['va_numbers'][0]['va_number'],
-                // 'bank_account_name' => $this->input->post('account_name'),
-                'bank_type' => $result['va_numbers'][0]['bank'],
-                'pdf_url' => $result['pdf_url'],
-                // 'bank_to' => $this->input->post('bank_tujuan'),
-            );
+
+            if ($result["payment_type"] == "qris") {
+                $data = array(
+                    'id' => $result['order_id'],
+                    'user' => $this->session->userdata('username'),
+                    'warung' => $this->input->post('warung'),
+                    //'origin'        => $this->input->post('origin'),
+                    'origin' => $this->input->post('origin'),
+                    'origin_id' => $this->input->post('origin-place_id'),
+                    //'origin_id'     => $this->input->post('origin-place_id'),
+                    //'destination'   => $this->input->post('destination'),
+                    //'destination_id'=> $this->input->post('destination-place_id'),
+                    'destination' => $this->input->post('destination'),
+                    'destination_id' => $this->input->post('destination-place_id'),
+                    'distance' => floatval($this->input->post('distance')),
+                    'delivery_fee' => $this->input->post('delivery_fee'),
+                    'billing' => $this->input->post('billing'),
+                    'total' => $this->input->post('total'),
+                    'status' => $result['status_code'],
+                    'method' => "QRIS",
+                    'bank_account_number' => null,
+                    // 'bank_account_name' => $this->input->post('account_name'),
+                    'bank_type' => null,
+                    'pdf_url' => null,
+                    // 'bank_to' => $this->input->post('bank_tujuan'),
+                );
+            } else {
+
+                $data = array(
+                    'id' => $result['order_id'],
+                    'user' => $this->session->userdata('username'),
+                    'warung' => $this->input->post('warung'),
+                    //'origin'        => $this->input->post('origin'),
+                    'origin' => $this->input->post('origin'),
+                    'origin_id' => $this->input->post('origin-place_id'),
+                    //'origin_id'     => $this->input->post('origin-place_id'),
+                    //'destination'   => $this->input->post('destination'),
+                    //'destination_id'=> $this->input->post('destination-place_id'),
+                    'destination' => $this->input->post('destination'),
+                    'destination_id' => $this->input->post('destination-place_id'),
+                    'distance' => floatval($this->input->post('distance')),
+                    'delivery_fee' => $this->input->post('delivery_fee'),
+                    'billing' => $this->input->post('billing'),
+                    'total' => $this->input->post('total'),
+                    'status' => $result['status_code'],
+                    'method' => $this->input->post('method'),
+                    'bank_account_number' => $result['va_numbers'][0]['va_number'],
+                    // 'bank_account_name' => $this->input->post('account_name'),
+                    'bank_type' => $result['va_numbers'][0]['bank'],
+                    'pdf_url' => $result['pdf_url'],
+                    // 'bank_to' => $this->input->post('bank_tujuan'),
+                );
+            }
         }
 
         $this->db->insert('invoices', $data);

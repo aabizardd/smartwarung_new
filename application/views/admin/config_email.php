@@ -10,10 +10,10 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="page-title mb-1">Daftar Invoice Menunggu Diverifikasi</h4>
+                        <h4 class="page-title mb-1">Konfigurasi Email</h4>
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="<?php echo site_url('admin') ?>">Admin</a></li>
-                            <li class="breadcrumb-item active">Pesanan</li>
+                            <li class="breadcrumb-item active">Konfigurasi Email</li>
                         </ol>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Password</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                        <input type="password" class="form-control" id="exampleInputPassword1"
                                             placeholder="Password" value="<?=$email[0]->password?>" name="password">
                                         <?=form_error('password', '<small class="text-danger">', '</small>');?>
                                     </div>

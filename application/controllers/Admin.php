@@ -18,6 +18,7 @@ class admin extends CI_Controller
         }
 
         $this->load->library('form_validation');
+        $this->load->library('encryption');
 
         // $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-@\=';
 
@@ -110,11 +111,23 @@ class admin extends CI_Controller
         $this->load->view('include_admin/footer');
     }
 
+    public function cekpw()
+    {
+        $this->load->library('encryption');
+
+        $encrypted_string = 'c457247c4fdb87a4522c708162dcfb0ba413683e90dbc2a0594bb0c52ca1a1a7a7bd81e5b0693d23208cd20dd6649d7b825aa995aa1c592cc8c982cdaa2a2c45CpxpH/MsxyesOUBiXEjPwfscctiocLWKXgh7m/EDUYQ=';
+
+        $plaintext_string = $this->encryption->decrypt($encrypted_string);
+
+        var_dump($plaintext_string);die();
+    }
+
     public function config_email()
     {
         $data['warungs'] = $this->users->get_warungs();
         // $data['orders'] = $this->templates->view_where_desc('invoices', ['method' => 'Transfer, COD'], 'date')->result();
         $data['email'] = $this->db->get('config_email')->result();
+
         $data['users'] = $this->users->get_users();
         $data['active'] = 'orders';
         $data['graph_invoice'] = $this->users->invoice_warung_graph()->result();
@@ -325,12 +338,14 @@ class admin extends CI_Controller
 
         $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
 
+        $pw = $this->encryption->decrypt($data_config['password']);
+
         $this->load->library('email');
         $config = [
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_user' => $data_config['email'],
-            'smtp_pass' => $data_config['password'],
+            'smtp_pass' => $pw,
             'smtp_port' => 465,
             'mailtype' => 'html',
             'charset' => 'utf-8',
@@ -879,13 +894,16 @@ class admin extends CI_Controller
     {
 
         $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
+        $pw = $this->encryption->decrypt($data_config['password']);
+
+        // var_dump($pw);die();
 
         $this->load->library('email');
         $config = [
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_user' => $data_config['email'],
-            'smtp_pass' => $data_config['password'],
+            'smtp_pass' => $pw,
             'smtp_port' => 465,
             'mailtype' => 'html',
             'charset' => 'utf-8',
@@ -911,13 +929,13 @@ class admin extends CI_Controller
     {
 
         $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
-
+        $pw = $this->encryption->decrypt($data_config['password']);
         $this->load->library('email');
         $config = [
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_user' => $data_config['email'],
-            'smtp_pass' => $data_config['password'],
+            'smtp_pass' => $pw,
             'smtp_port' => 465,
             'mailtype' => 'html',
             'charset' => 'utf-8',

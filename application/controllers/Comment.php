@@ -24,7 +24,7 @@ class comment extends CI_Controller
         $captcha = $this->input->post('g-recaptcha-response');
 
         if ($captcha != "") {
-            $secret = '6LdIYIMbAAAAANgmTzgxet9uLEfHBXd1NgJfsHfk';
+            $secret = '6Lf2K4sbAAAAAAqozp2o5VnP9MB08HT0T0WkmdLj';
             $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
             $responseData = json_decode($verifyResponse);
 
@@ -79,7 +79,7 @@ class comment extends CI_Controller
         $captcha = $this->input->post('g-recaptcha-response');
 
         if ($captcha != "") {
-            $secret = '6LdIYIMbAAAAANgmTzgxet9uLEfHBXd1NgJfsHfk';
+            $secret = '6Lf2K4sbAAAAAAqozp2o5VnP9MB08HT0T0WkmdLj';
             $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
             $responseData = json_decode($verifyResponse);
 

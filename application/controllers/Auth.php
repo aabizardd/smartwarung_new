@@ -89,9 +89,19 @@ class auth extends CI_Controller
             $this->load->view('auth/register');
             $this->load->view('template/footer');
         } else {
-            $this->users->store($this->input->post('username'));
-            $this->session->set_flashdata('success', 'Selamat, akun anda berhasil dibuat, mohon untuk menunggu aktivasi akun dari admin. Terimakasih');
-            redirect('auth/login', 'refresh');
+            $captcha = $this->input->post('g-recaptcha-response');
+
+            if ($captcha != "") {
+                $secret = '6Lf2K4sbAAAAAAqozp2o5VnP9MB08HT0T0WkmdLj';
+                $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
+                $responseData = json_decode($verifyResponse);
+
+                if ($responseData->success) {
+                    $this->users->store($this->input->post('username'));
+                    $this->session->set_flashdata('success', 'Selamat, akun anda berhasil dibuat, mohon untuk menunggu aktivasi akun dari admin. Terimakasih');
+                    redirect('auth/login', 'refresh');
+                }
+            }
         }
     }
 
@@ -138,66 +148,77 @@ class auth extends CI_Controller
 
         if ($this->form_validation->run() == true) {
 
-            for ($i = 0; $i < $countfiles; $i++) {
-                if (!empty($_FILES['files']['name'][$i])) {
-                    $_FILES['photo']['name'] = $_FILES['files']['name'][$i];
-                    $_FILES['photo']['type'] = $_FILES['files']['type'][$i];
-                    $_FILES['photo']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-                    $_FILES['photo']['error'] = $_FILES['files']['error'][$i];
-                    $_FILES['photo']['size'] = $_FILES['files']['size'][$i];
+            $captcha = $this->input->post('g-recaptcha-response');
 
-                    $config['upload_path'] = 'assets/uploads/';
-                    $config['allowed_types'] = 'jpg|jpeg|png';
-                    $config['max_size'] = '5000';
-                    $config['encrypt_name'] = true;
-                    // $config['file_name']        = $_FILES['files']['name'][$i];
+            if ($captcha != "") {
+                $secret = '6Lf2K4sbAAAAAAqozp2o5VnP9MB08HT0T0WkmdLj';
+                $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captcha);
+                $responseData = json_decode($verifyResponse);
 
-                    $this->load->library('upload', $config);
+                if ($responseData->success) {
 
-                    if ($this->upload->do_upload('photo')) {
-                        $upload_data = $this->upload->data();
-                        $data_photos[$i] = $upload_data['file_name'];
-                        // echo $countfiles;
+                    for ($i = 0; $i < $countfiles; $i++) {
+                        if (!empty($_FILES['files']['name'][$i])) {
+                            $_FILES['photo']['name'] = $_FILES['files']['name'][$i];
+                            $_FILES['photo']['type'] = $_FILES['files']['type'][$i];
+                            $_FILES['photo']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                            $_FILES['photo']['error'] = $_FILES['files']['error'][$i];
+                            $_FILES['photo']['size'] = $_FILES['files']['size'][$i];
+
+                            $config['upload_path'] = 'assets/uploads/';
+                            $config['allowed_types'] = 'jpg|jpeg|png';
+                            $config['max_size'] = '5000';
+                            $config['encrypt_name'] = true;
+                            // $config['file_name']        = $_FILES['files']['name'][$i];
+
+                            $this->load->library('upload', $config);
+
+                            if ($this->upload->do_upload('photo')) {
+                                $upload_data = $this->upload->data();
+                                $data_photos[$i] = $upload_data['file_name'];
+                                // echo $countfiles;
+                            }
+                        }
+                    }
+
+                    for ($i = 0; $i < $countfilesktp; $i++) {
+                        if (!empty($_FILES['ktp']['name'][$i])) {
+                            $_FILES['photo']['name'] = $_FILES['ktp']['name'][$i];
+                            $_FILES['photo']['type'] = $_FILES['ktp']['type'][$i];
+                            $_FILES['photo']['tmp_name'] = $_FILES['ktp']['tmp_name'][$i];
+                            $_FILES['photo']['error'] = $_FILES['ktp']['error'][$i];
+                            $_FILES['photo']['size'] = $_FILES['ktp']['size'][$i];
+
+                            $config['upload_path'] = 'assets/uploads/';
+                            $config['allowed_types'] = 'jpg|jpeg|png';
+                            $config['max_size'] = '5000';
+                            $config['encrypt_name'] = true;
+                            // $config['file_name']        = $_FILES['files']['name'][$i];
+
+                            $this->load->library('upload', $config);
+
+                            if ($this->upload->do_upload('photo')) {
+                                $upload_data = $this->upload->data();
+                                $data_photosktp[$i] = $upload_data['file_name'];
+                                // echo $countfiles;
+                            }
+                        }
+                    }
+
+                    if (!empty($data_photos)) {
+                        $data_photo = implode(',', $data_photos);
+                        $data_photoktp = implode(',', $data_photosktp);
+                        // echo $data_photo;
+
+                        $this->users->store_warung($this->input->post('username'), $data_photo, $data_photoktp);
+
+                        $this->session->set_flashdata('success', 'Akun Anda berhasil dibuat!');
+                        redirect('auth/login', 'refresh');
+                    } else {
+                        $this->session->set_flashdata('errors', 'Register gagal!');
+                        redirect('auth/register_warung', 'refresh');
                     }
                 }
-            }
-
-            for ($i = 0; $i < $countfilesktp; $i++) {
-                if (!empty($_FILES['ktp']['name'][$i])) {
-                    $_FILES['photo']['name'] = $_FILES['ktp']['name'][$i];
-                    $_FILES['photo']['type'] = $_FILES['ktp']['type'][$i];
-                    $_FILES['photo']['tmp_name'] = $_FILES['ktp']['tmp_name'][$i];
-                    $_FILES['photo']['error'] = $_FILES['ktp']['error'][$i];
-                    $_FILES['photo']['size'] = $_FILES['ktp']['size'][$i];
-
-                    $config['upload_path'] = 'assets/uploads/';
-                    $config['allowed_types'] = 'jpg|jpeg|png';
-                    $config['max_size'] = '5000';
-                    $config['encrypt_name'] = true;
-                    // $config['file_name']        = $_FILES['files']['name'][$i];
-
-                    $this->load->library('upload', $config);
-
-                    if ($this->upload->do_upload('photo')) {
-                        $upload_data = $this->upload->data();
-                        $data_photosktp[$i] = $upload_data['file_name'];
-                        // echo $countfiles;
-                    }
-                }
-            }
-
-            if (!empty($data_photos)) {
-                $data_photo = implode(',', $data_photos);
-                $data_photoktp = implode(',', $data_photosktp);
-                // echo $data_photo;
-
-                $this->users->store_warung($this->input->post('username'), $data_photo, $data_photoktp);
-
-                $this->session->set_flashdata('success', 'Akun Anda berhasil dibuat!');
-                redirect('auth/login', 'refresh');
-            } else {
-                $this->session->set_flashdata('errors', 'Register gagal!');
-                redirect('auth/register_warung', 'refresh');
             }
 
         } else {

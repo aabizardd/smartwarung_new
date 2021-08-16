@@ -144,6 +144,7 @@ class Snap extends CI_Controller
         // echo 'RESULT <br><pre>';
         // var_dump($result);
         // echo '</pre>';
+        // var_dump($result);die();
 
         $this->invoices->store($result);
         redirect('profile/order');

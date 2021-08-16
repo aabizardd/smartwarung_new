@@ -10,10 +10,10 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="page-title mb-1">Review Warung</h4>
+                        <h4 class="page-title mb-1">Review</h4>
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="<?php echo site_url('admin') ?>">Admin</a></li>
-                            <li class="breadcrumb-item active">Review Warung</li>
+                            <li class="breadcrumb-item active">Review</li>
                         </ol>
                     </div>
                 </div>
@@ -66,7 +66,6 @@
                                             <th>Username</th>
                                             <th>Kepada</th>
                                             <th>Pesan</th>
-                                            <th>Bukti</th>
                                             <th>Rating</th>
                                         </tr>
                                     </thead>
@@ -93,11 +92,6 @@ echo 'Jam : ' . date("H:i", strtotime($key['date']))
                                             <td><?php echo $key['username'] ?></td>
                                             <td><?php echo $key['to_whom'] ?></td>
                                             <td><?php echo $key['message'] ?></td>
-                                            <td><a href="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
-                                                    target="_blank"><img class="img-thumbnail img-fluid"
-                                                        src="<?php echo base_url('assets/kritik/' . $key['foto']) ?>"
-                                                        width="150"></a>
-                                            </td>
                                             <td>
                                                 <?php for ($i = 0; $i < $key['rating']; $i++): ?>
                                                 <img src="<?=base_url('assets_admin/images/star.png')?>" alt=""

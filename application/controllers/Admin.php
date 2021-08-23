@@ -604,8 +604,11 @@ class admin extends CI_Controller
             'updated_at' => date("Y-m-d"),
         );
 
+        $data_warung = $this->db->get_where('users', ['username' => $username])->row_array();
+
         $this->db->where('username', $username);
         if ($this->db->update('warungs', $data)) {
+            $this->_sendEmailApprove($data_warung['email']);
             $this->session->set_flashdata('success', 'Warung berhasil diverifikasi!');
             redirect('admin/warung');
         } else {
@@ -984,6 +987,38 @@ class admin extends CI_Controller
 
         $this->email->subject('Alasan akun anda kamu non-aktifkan');
         $this->email->message($alasan);
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            echo $this->email->print_debugger();
+            die;
+        }
+    }
+
+    private function _sendEmailApprove($email)
+    {
+
+        $data_config = $this->db->get_where('config_email', ['id' => 1])->row_array();
+        $pw = $this->encryption->decrypt($data_config['password']);
+        $this->load->library('email');
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_user' => $data_config['email'],
+            'smtp_pass' => $pw,
+            'smtp_port' => 465,
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'newline' => "\r\n",
+        ];
+
+        $this->email->initialize($config);
+        $this->email->from('admin@smartwarung.site', 'Admin SmartWarung');
+        $this->email->to($email);
+
+        $this->email->subject('Alasan akun anda kamu non-aktifkan');
+        $this->email->message("Akun warung anda telah diterima, silahkan masuk ke dalam aplikasi");
 
         if ($this->email->send()) {
             return true;

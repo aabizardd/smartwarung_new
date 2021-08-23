@@ -58,8 +58,8 @@
                                         <label class="col-md-2 col-form-label">Alasan Tidak Aktif</label>
                                         <div class="col-md-10">
 
-                                            <?php $no_a = 1;
-$no_b = 1;?>
+                                            <?php $no_a = 1;?>
+                                            <?php $no_b = 1;?>
                                             <?php foreach ($tolak as $item): ?>
 
                                             <div class="form-check">

@@ -616,7 +616,7 @@ class admin extends CI_Controller
 
     public function keterangan_un_warung($username)
     {
-        $data_item = $this->templates->view_where('warungs', ['username' => $username])->row_array();
+        $data_item = $this->templates->getWarungUser(['username' => $username])->row_array();
         $data['item'] = $data_item;
         $data['warungs'] = $this->users->get_warungs_all();
         $data['active'] = 'warung';
@@ -625,6 +625,8 @@ class admin extends CI_Controller
         $data['graph_invoice_buyer'] = $this->users->invoice_buyer_graph()->result();
         $data['graph_invoice_status'] = $this->users->invoice_status_graph()->result();
 
+        $data['tolak'] = ['Email tidak valid', 'KTP tidak valid'];
+
         $this->load->view('include_admin/meta');
         $this->load->view('include_admin/header');
         $this->load->view('include_admin/sidebar');
@@ -632,16 +634,50 @@ class admin extends CI_Controller
         $this->load->view('include_admin/footer');
     }
 
+    public function tolak_akun_warung()
+    {
+        $alasan = $this->input->post('alasan');
+        $email = $this->input->post('email');
+
+        foreach ($alasan as $key => $value) {
+
+            // $this->Asprak_model->insert('tb_bahan_praktikum', $data_alasan);
+
+            // var_dump($data_alasan);
+
+            array_push($data_a, $value);
+
+            $alasan = implode(", ", $data_a);
+        }
+    }
+
     public function unapprove($username)
     {
+
+        $alasan = $this->input->post('alasan');
+        $email = $this->input->post('email');
+        $data_a = [];
+        foreach ($alasan as $key => $value) {
+
+            // $this->Asprak_model->insert('tb_bahan_praktikum', $data_alasan);
+
+            // var_dump($data_alasan);
+
+            array_push($data_a, $value);
+
+            $alasan = implode(", ", $data_a);
+        }
+        // var_dump($alasan);die();
+
         $data = array(
             'status' => 'Verifikasi tidak disetujui',
-            'alasan' => $this->input->post('alasan'),
+            'alasan' => $alasan,
             'updated_at' => date("Y-m-d"),
         );
 
         $this->db->where('username', $username);
         if ($this->db->update('warungs', $data)) {
+            $this->_sendEmailNonAktif($email, $alasan);
             $this->session->set_flashdata('success', 'Status warung berhasil diperbarui!');
             redirect('admin/warung');
         } else {
@@ -903,7 +939,7 @@ class admin extends CI_Controller
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_user' => $data_config['email'],
-            'smtp_pass' => $pw,
+            'smtp_pass' => "$pw",
             'smtp_port' => 465,
             'mailtype' => 'html',
             'charset' => 'utf-8',

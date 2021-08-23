@@ -34,6 +34,17 @@ class templates extends CI_Model
 
         return $this->db->get($tabel);
     }
+
+    public function getWarungUser($where)
+    {
+        $this->db->select('*');
+        $this->db->from('warungs w');
+        $this->db->join('users u', 'username');
+        $this->db->where($where);
+
+        return $this->db->get();
+    }
+
     public function view_where_desc($tabel, $where, $order)
     {
         $this->db->where_in($where);
